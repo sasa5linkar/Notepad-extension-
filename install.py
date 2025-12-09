@@ -26,6 +26,7 @@ SCRIPT_SHORTCUTS = {
     'wrap_quote.py': {'key': '52', 'ctrl': 'yes', 'alt': 'yes', 'shift': 'no'},  # Ctrl+Alt+4
     'wrap_trailer.py': {'key': '53', 'ctrl': 'yes', 'alt': 'yes', 'shift': 'no'}, # Ctrl+Alt+5
     'wrap_foreign_prompt.py': {'key': '54', 'ctrl': 'yes', 'alt': 'yes', 'shift': 'no'}, # Ctrl+Alt+6
+    'wrap_foreign_fixed.py': {'key': '55', 'ctrl': 'yes', 'alt': 'yes', 'shift': 'no'}, # Ctrl+Alt+7
 }
 
 
