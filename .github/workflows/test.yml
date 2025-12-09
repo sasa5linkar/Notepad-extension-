@@ -1,0 +1,83 @@
+name: Test Scripts
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} with Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Display Python version
+      run: python --version
+    
+    - name: Run wrap scripts tests
+      run: python -m unittest tests.test_wrap_scripts -v
+    
+    - name: Run install script tests
+      run: python -m unittest tests.test_install -v
+    
+    - name: Run existing test_scripts.py
+      run: python scripts/test_scripts.py
+    
+    - name: Verify all scripts are present
+      shell: bash
+      run: |
+        scripts=(
+          "scripts/wrap_title.py"
+          "scripts/wrap_head.py"
+          "scripts/wrap_hi.py"
+          "scripts/wrap_quote.py"
+          "scripts/wrap_trailer.py"
+          "scripts/wrap_foreign_fixed.py"
+          "scripts/wrap_foreign_prompt.py"
+          "scripts/test_scripts.py"
+        )
+        
+        echo "Checking for required scripts..."
+        missing=0
+        for script in "${scripts[@]}"; do
+          if [ ! -f "$script" ]; then
+            echo "ERROR: Missing script: $script"
+            missing=$((missing + 1))
+          else
+            echo "✓ Found: $script"
+          fi
+        done
+        
+        if [ $missing -gt 0 ]; then
+          echo "ERROR: $missing script(s) missing!"
+          exit 1
+        fi
+        
+        echo "All required scripts present!"
+    
+    - name: Test install.py syntax
+      run: python -m py_compile install.py
+    
+    - name: Test all script files syntax
+      run: |
+        python -m py_compile scripts/wrap_title.py
+        python -m py_compile scripts/wrap_head.py
+        python -m py_compile scripts/wrap_hi.py
+        python -m py_compile scripts/wrap_quote.py
+        python -m py_compile scripts/wrap_trailer.py
+        python -m py_compile scripts/wrap_foreign_fixed.py
+        python -m py_compile scripts/wrap_foreign_prompt.py
+        python -m py_compile scripts/test_scripts.py
