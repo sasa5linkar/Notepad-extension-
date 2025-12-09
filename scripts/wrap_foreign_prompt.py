@@ -19,4 +19,4 @@ if sel:
     if lang:
         # Očisti lang od potencijalno opasnih karaktera
         lang_clean = lang.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
-        editor.replaceSel(f'<foreign xml:lang="{lang_clean}">{sel}</foreign>')
+        editor.replaceSel('<foreign xml:lang="{0}">{1}</foreign>'.format(lang_clean, sel))
