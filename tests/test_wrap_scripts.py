@@ -8,8 +8,8 @@ import unittest
 import sys
 from pathlib import Path
 
-# Mock classes to simulate Notepad++ Npp module
 
+# Mock classes to simulate Notepad++ Npp module
 
 class MockEditor:
     """Mock class that simulates editor object from Npp module."""

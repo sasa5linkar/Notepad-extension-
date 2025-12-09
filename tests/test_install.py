@@ -17,8 +17,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     import install
-except ImportError:
-    # On non-Windows systems, install.py might fail to import due to winreg
+except (ImportError, ModuleNotFoundError):
+    # On non-Windows systems, install.py might fail to import due to missing winreg module
     install = None
 
 
