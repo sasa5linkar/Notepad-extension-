@@ -92,7 +92,9 @@ def test_foreign_prompt(mock_editor, mock_notepad):
     if sel:
         lang = mock_notepad.prompt("Unesite vrednost za xml:lang atribut:", "Jezik", "en")
         if lang:
-            mock_editor.replaceSel(f'<foreign xml:lang="{lang}">{sel}</foreign>')
+            # Očisti lang od potencijalno opasnih karaktera
+            lang_clean = lang.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+            mock_editor.replaceSel(f'<foreign xml:lang="{lang_clean}">{sel}</foreign>')
     
     expected = '<foreign xml:lang="fr">bonjour</foreign>'
     if mock_editor.replaced_text == expected:
@@ -100,6 +102,32 @@ def test_foreign_prompt(mock_editor, mock_notepad):
         return True
     else:
         print("✗ wrap_foreign_prompt test NIJE PROŠAO")
+        print(f"  Očekivano: {expected}")
+        print(f"  Dobijeno: {mock_editor.replaced_text}")
+        return False
+
+
+def test_foreign_prompt_with_escaping(mock_editor, mock_notepad):
+    """Testira XML escaping u wrap_foreign_prompt.py skripti."""
+    print("\n=== Test wrap_foreign_prompt (sa escapingom) ===")
+    mock_editor.selected_text = "test"
+    mock_editor.replaced_text = ""
+    mock_notepad.prompt_response = 'en"test'
+    
+    sel = mock_editor.getSelText()
+    if sel:
+        lang = mock_notepad.prompt("Unesite vrednost za xml:lang atribut:", "Jezik", "en")
+        if lang:
+            # Očisti lang od potencijalno opasnih karaktera
+            lang_clean = lang.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+            mock_editor.replaceSel(f'<foreign xml:lang="{lang_clean}">{sel}</foreign>')
+    
+    expected = '<foreign xml:lang="en&quot;test">test</foreign>'
+    if mock_editor.replaced_text == expected:
+        print("✓ wrap_foreign_prompt (escaping) test PROŠAO")
+        return True
+    else:
+        print("✗ wrap_foreign_prompt (escaping) test NIJE PROŠAO")
         print(f"  Očekivano: {expected}")
         print(f"  Dobijeno: {mock_editor.replaced_text}")
         return False
@@ -126,6 +154,7 @@ def run_all_tests():
     # Testiraj foreign skripte
     results.append(test_foreign_fixed(mock_editor))
     results.append(test_foreign_prompt(mock_editor, mock_notepad))
+    results.append(test_foreign_prompt_with_escaping(mock_editor, mock_notepad))
     
     # Sumiraj rezultate
     print("\n" + "=" * 50)

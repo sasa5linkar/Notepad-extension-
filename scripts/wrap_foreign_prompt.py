@@ -17,4 +17,6 @@ if sel:
     
     # Ako je korisnik uneo jezik (nije pritisnuo Cancel)
     if lang:
-        editor.replaceSel(f'<foreign xml:lang="{lang}">{sel}</foreign>')
+        # Očisti lang od potencijalno opasnih karaktera
+        lang_clean = lang.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+        editor.replaceSel(f'<foreign xml:lang="{lang_clean}">{sel}</foreign>')
