@@ -1,0 +1,87 @@
+name: Test Scripts
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} with Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Display Python version
+      run: python --version
+    
+    - name: Run wrap scripts tests
+      run: python -m unittest tests.test_wrap_scripts -v
+    
+    - name: Run install script tests
+      run: python -m unittest tests.test_install -v
+    
+    - name: Run existing test_scripts.py
+      run: python scripts/test_scripts.py
+    
+    - name: Verify all scripts are present
+      shell: bash
+      run: |
+        echo "Checking for required scripts..."
+        
+        # Count scripts in the scripts directory
+        script_count=$(find scripts -name '*.py' -type f | wc -l)
+        
+        if [ "$script_count" -eq 0 ]; then
+          echo "ERROR: No Python scripts found in scripts/ directory!"
+          exit 1
+        fi
+        
+        echo "Found $script_count Python script(s) in scripts/ directory:"
+        find scripts -name '*.py' -type f -exec echo "  ✓ {}" \;
+        
+        # Verify critical scripts exist
+        critical_scripts=("wrap_title.py" "wrap_head.py" "wrap_hi.py" "wrap_quote.py" "wrap_trailer.py" "wrap_foreign_fixed.py" "wrap_foreign_prompt.py")
+        
+        missing=0
+        for script in "${critical_scripts[@]}"; do
+          if [ ! -f "scripts/$script" ]; then
+            echo "ERROR: Missing critical script: scripts/$script"
+            missing=$((missing + 1))
+          fi
+        done
+        
+        if [ $missing -gt 0 ]; then
+          echo "ERROR: $missing critical script(s) missing!"
+          exit 1
+        fi
+        
+        echo "All critical scripts present!"
+    
+    - name: Test install.py syntax
+      run: python -m py_compile install.py
+    
+    - name: Test all script files syntax
+      shell: bash
+      run: |
+        echo "Compiling all Python scripts..."
+        find scripts -name '*.py' -type f | while read script; do
+          echo "Compiling: $script"
+          python -m py_compile "$script"
+        done
+        echo "All scripts compiled successfully!"

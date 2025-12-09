@@ -1,5 +1,7 @@
 # PythonScript Makroi za Notepad++ — XML Obeležavanje
 
+![Test Scripts](https://github.com/sasa5linkar/Notepad-extension-/actions/workflows/test.yml/badge.svg)
+
 ## Šta je ovo?
 
 Ovo je kolekcija gotovih **PythonScript makroa** za Notepad++ editor, osmišljena da olakša rad sa XML obeležavanjem tekstualnih datoteka. Skripte omogućavaju jednostavno i brzo obavijanje označenog (selektovanog) teksta u specifične XML tagove poput `<title>`, `<quote>`, `<trailer>`, `<hi>`, `<head>` i `<foreign>` — sve pomoću jednog klika ili prečice na tastaturi.
@@ -138,12 +140,57 @@ if sel:
 
 ## Testiranje skripti
 
-Repozitorijum sadrži `test_scripts.py` koji služi kao mock okruženje za testiranje skripti van Notepad++:
+Repozitorijum sadrži nekoliko testova koji osiguravaju ispravan rad skripti:
 
-- Pokreće se standardnom Python komandom: `python test_scripts.py`
+### Postojeći test skripta
+
+Repozitorijum sadrži `scripts/test_scripts.py` koji služi kao mock okruženje za testiranje skripti van Notepad++:
+
+- Pokreće se standardnom Python komandom: `python scripts/test_scripts.py`
 - Simulira `editor` i `notepad` objekte iz Npp modula
 - Testira sve skripte i prikazuje rezultate
 - Koristan za razvoj novih skripti ili proveru da li skripte rade ispravno
+
+### Unit testovi
+
+U `tests/` folderu se nalaze sveobuhvatni unit testovi:
+
+- **test_wrap_scripts.py** — 14 testova za sve wrap skripte
+  - Testira osnovnu funkcionalnost svakog taga
+  - Testira XML escaping u wrap_foreign_prompt.py
+  - Testira edge case-ove (prazna selekcija, specijalni karakteri, Unicode, multiline tekst)
+- **test_install.py** — 9 testova za install.py
+  - Testira helper funkcije
+  - Testira konfiguraciju tastaturnih prečica
+  - Testira detekciju putanja (samo na Windows sistemima)
+
+Pokretanje unit testova:
+
+```bash
+# Svi testovi
+python -m unittest discover -s tests -v
+
+# Samo testovi wrap skripti
+python -m unittest tests.test_wrap_scripts -v
+
+# Samo testovi installer-a
+python -m unittest tests.test_install -v
+```
+
+### CI/CD — Automatsko testiranje
+
+Projekat koristi **GitHub Actions** za automatsko testiranje pri svakom push-u i pull request-u:
+
+- **Workflow**: `.github/workflows/test.yml`
+- **Multi-OS testiranje**: Ubuntu i Windows
+- **Multi-verzija Python-a**: 3.8, 3.9, 3.10, 3.11, 3.12
+- **Automatske provere**:
+  - Pokreće sve unit testove
+  - Pokreće test_scripts.py
+  - Proverava sintaksu svih .py fajlova
+  - Verifikuje da svi potrebni fajlovi postoje
+
+Status testova možete videti u GitHub Actions tabu repozitorijuma.
 
 ## Licenca
 
