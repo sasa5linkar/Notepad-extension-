@@ -44,11 +44,49 @@ Tipična putanja je:
 C:\Users\[VašeKorisničkoIme]\AppData\Roaming\Notepad++\plugins\config\PythonScript\scripts\
 ```
 
-## Kako kopirati skripte iz repozitorijuma?
+## Kako instalirati skripte?
+
+### Automatska instalacija (preporučeno) 🚀
+
+Najbrži i najlakši način je korišćenje automatskog instalera:
+
+1. Preuzmite ceo repozitorijum (kliknite na zeleno dugme "Code" → "Download ZIP")
+2. Raspakujte ZIP arhivu na bilo koju lokaciju
+3. **Važno**: Uverite se da imate instaliran **PythonScript plugin** u Notepad++ (vidi odeljak iznad)
+4. Dvoklikom pokrenite `install.bat`
+5. Installer će automatski:
+   - Pronaći Notepad++ instalaciju
+   - Kopirati sve skripte u odgovarajući folder
+   - Dodati tastaturne prečice za svaku skriptu
+   - Prikazati poruke o uspehu ili grešci
+
+**Tastaturne prečice koje installer dodaje:**
+- `wrap_title.py` → **Ctrl+Alt+1**
+- `wrap_head.py` → **Ctrl+Alt+2**
+- `wrap_hi.py` → **Ctrl+Alt+3**
+- `wrap_quote.py` → **Ctrl+Alt+4**
+- `wrap_trailer.py` → **Ctrl+Alt+5**
+- `wrap_foreign_prompt.py` → **Ctrl+Alt+6**
+
+**Nakon instalacije:**
+- Restartujte Notepad++ da bi se aktivirale tastaturne prečice
+- Skripte su odmah dostupne kroz **Plugins → PythonScript → Scripts**
+- Tastaturne prečice će automatski raditi
+
+**Napomene:**
+- Installer zahteva Python 3 (proverite sa `python --version`)
+- Installer automatski detektuje Notepad++ instalaciju kroz Windows Registry
+- PythonScript plugin **mora** biti instaliran pre pokretanja installer-a
+- Postojeće tastaturne prečice u Notepad++ će biti sačuvane
+
+### Ručna instalacija (alternativa)
+
+Ako preferirate ručnu instalaciju ili imate problema sa automatskim installerom:
 
 1. Preuzmite sve `.py` fajlove iz `scripts/` foldera ovog GitHub repozitorijuma
 2. Kopirajte ih u Scripts folder koji ste pronašli u prethodnom koraku
 3. Skripte će odmah biti dostupne u Notepad++
+4. Tastaturne prečice ćete morati ručno da dodelite (vidi sledeći odeljak)
 
 ## Kako pokrenuti skripte?
 
