@@ -219,8 +219,9 @@ def indent_xml(elem, level=0):
             elem.tail = indent
         for child in elem:
             indent_xml(child, level + 1)
-        if not child.tail or not child.tail.strip():
-            child.tail = indent
+        # Set tail on last child
+        if len(elem) > 0 and (not elem[-1].tail or not elem[-1].tail.strip()):
+            elem[-1].tail = indent
     else:
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = indent
