@@ -192,6 +192,22 @@ Projekat koristi **GitHub Actions** za automatsko testiranje pri svakom push-u i
 
 Status testova možete videti u GitHub Actions tabu repozitorijuma.
 
+## Doprinos i razvoj
+
+### Za razvojne inženjere i AI asistente
+
+Ako planirate da doprinесete projektu ili koristite AI asistente (GitHub Copilot, ChatGPT, Claude, itd.) za modifikaciju koda, **obavezno pročitajte**:
+
+📖 **[`.github/CONTRIBUTING_AI.md`](.github/CONTRIBUTING_AI.md)** — Smernice za AI agente i asistente
+
+Ovaj dokument sadrži **kritične informacije** o:
+- Python 2.7 kompatibilnosti za Notepad++ skripte
+- Obaveznoj upotrebi samo standardnih biblioteka
+- Razlikama između `/scripts/` (Python 2.7) i `/tests/`, `/install.py` (Python 3.8+)
+- Pravilima kodiranja i sintakse (`.format()` vs f-strings)
+
+**Bitno:** Skripte u `/scripts/` folderu moraju biti kompatibilne sa **Python 2.7** jer PythonScript plugin u Notepad++ koristi tu verziju. Sve buduće skripte moraju poštovati ova ograničenja.
+
 ## Licenca
 
 MIT License
