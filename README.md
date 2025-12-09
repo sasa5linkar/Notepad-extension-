@@ -95,7 +95,7 @@ from Npp import editor
 
 sel = editor.getSelText()
 if sel:
-    editor.replaceSel(f"<author>{sel}</author>")
+    editor.replaceSel("<author>{0}</author>".format(sel))
 ```
 
 ## Testiranje skripti
