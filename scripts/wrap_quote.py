@@ -11,4 +11,4 @@ sel = editor.getSelText()
 
 # Ako postoji selekcija, obavij je u <quote> tag
 if sel:
-    editor.replaceSel(f"<quote>{sel}</quote>")
+    editor.replaceSel("<quote>{0}</quote>".format(sel))

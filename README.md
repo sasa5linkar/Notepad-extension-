@@ -31,6 +31,8 @@ Da biste koristili ove skripte, prvo morate instalirati PythonScript plugin u No
 
 **Napomena:** PythonScript plugin je dostupan samo za Windows verziju Notepad++.
 
+**Kompatibilnost:** Ove skripte su napisane da budu kompatibilne sa PythonScript pluginom verzije 2.x koja koristi Python 2.7 (standardna verzija dostupna kroz Plugins Admin). Skripte koriste `.format()` sintaksu umesto f-string sintakse, tako da će raditi sa svim verzijama PythonScript plugina (Python 2.7 i Python 3.x).
+
 ## Kako pronaći Scripts folder?
 
 Nakon što instalirate PythonScript, potrebno je da pronađete lokaciju gde se čuvaju skripte:
@@ -93,7 +95,7 @@ from Npp import editor
 
 sel = editor.getSelText()
 if sel:
-    editor.replaceSel(f"<author>{sel}</author>")
+    editor.replaceSel("<author>{0}</author>".format(sel))
 ```
 
 ## Testiranje skripti

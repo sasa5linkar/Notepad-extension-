@@ -15,4 +15,4 @@ sel = editor.getSelText()
 
 # Ako postoji selekcija, obavij je u <foreign> tag sa xml:lang atributom
 if sel:
-    editor.replaceSel(f'<foreign xml:lang="{DEFAULT_LANG}">{sel}</foreign>')
+    editor.replaceSel('<foreign xml:lang="{0}">{1}</foreign>'.format(DEFAULT_LANG, sel))
