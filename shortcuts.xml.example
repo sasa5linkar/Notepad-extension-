@@ -17,6 +17,7 @@ The installer preserves existing shortcuts and adds PythonScript commands.
     <Command name="PythonScript:wrap_quote" Ctrl="yes" Alt="yes" Shift="no" Key="52" />
     <Command name="PythonScript:wrap_trailer" Ctrl="yes" Alt="yes" Shift="no" Key="53" />
     <Command name="PythonScript:wrap_foreign_prompt" Ctrl="yes" Alt="yes" Shift="no" Key="54" />
+    <Command name="PythonScript:wrap_foreign_fixed" Ctrl="yes" Alt="yes" Shift="no" Key="55" />
     
     <!-- Your existing plugin shortcuts will be preserved here -->
   </PluginCommands>

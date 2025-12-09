@@ -71,6 +71,7 @@ Najbrži i najlakši način je korišćenje automatskog instalera:
 - `wrap_quote.py` → **Ctrl+Alt+4**
 - `wrap_trailer.py` → **Ctrl+Alt+5**
 - `wrap_foreign_prompt.py` → **Ctrl+Alt+6**
+- `wrap_foreign_fixed.py` → **Ctrl+Alt+7**
 
 **Nakon instalacije:**
 - Restartujte Notepad++ da bi se aktivirale tastaturne prečice
