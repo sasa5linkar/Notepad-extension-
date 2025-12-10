@@ -150,6 +150,7 @@ def run_all_tests():
     results.append(test_wrap_tag("wrap_quote", "<quote>{sel}</quote>", mock_editor))
     results.append(test_wrap_tag("wrap_hi", "<hi>{sel}</hi>", mock_editor))
     results.append(test_wrap_tag("wrap_head", "<head>{sel}</head>", mock_editor))
+    results.append(test_wrap_tag("wrap_serbian_quotes", u"\u201e{sel}\u201c", mock_editor))
     
     # Testiraj foreign skripte
     results.append(test_foreign_fixed(mock_editor))

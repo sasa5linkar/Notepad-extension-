@@ -91,6 +91,15 @@ class TestWrapScripts(unittest.TestCase):
         
         self.assertEqual(self.editor.replaced_text, "<trailer>test text</trailer>")
     
+    def test_wrap_serbian_quotes(self):
+        """Test wrap_serbian_quotes script wraps text in Serbian quotation marks."""
+        self.editor.selected_text = "test text"
+        sel = self.editor.getSelText()
+        if sel:
+            self.editor.replaceSel(u"\u201e{0}\u201c".format(sel))
+        
+        self.assertEqual(self.editor.replaced_text, u"\u201etest text\u201c")
+    
     def test_wrap_foreign_fixed(self):
         """Test wrap_foreign_fixed script wraps text with fixed language attribute."""
         DEFAULT_LANG = "en"
@@ -179,6 +188,15 @@ class TestWrapScripts(unittest.TestCase):
             self.editor.replaceSel("<title>{0}</title>".format(sel))
         
         self.assertEqual(self.editor.replaced_text, "<title>Тест текст ćирилица</title>")
+    
+    def test_wrap_serbian_quotes_with_unicode(self):
+        """Test Serbian quotes with Cyrillic text."""
+        self.editor.selected_text = "Ово је српски текст"
+        sel = self.editor.getSelText()
+        if sel:
+            self.editor.replaceSel(u"\u201e{0}\u201c".format(sel))
+        
+        self.assertEqual(self.editor.replaced_text, u"\u201eОво је српски текст\u201c")
     
     def test_wrap_multiline_text(self):
         """Test wrapping multiline text."""

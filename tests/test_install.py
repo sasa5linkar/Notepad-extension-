@@ -130,7 +130,8 @@ class TestShortcutConfiguration(unittest.TestCase):
             'wrap_quote.py',
             'wrap_trailer.py',
             'wrap_foreign_prompt.py',
-            'wrap_foreign_fixed.py'
+            'wrap_foreign_fixed.py',
+            'wrap_serbian_quotes.py'
         ]
         
         for script in expected_scripts:

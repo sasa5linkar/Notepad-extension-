@@ -17,6 +17,7 @@ Repozitorijum sadrži sledeće skripte u `scripts/` folderu:
 - **wrap_quote.py** — Obavija selektovani tekst u `<quote>` tag
 - **wrap_hi.py** — Obavija selektovani tekst u `<hi>` tag
 - **wrap_head.py** — Obavija selektovani tekst u `<head>` tag
+- **wrap_serbian_quotes.py** — Obavija selektovani tekst u srpske navodnike („tekst")
 - **wrap_foreign_fixed.py** — Obavija selektovani tekst u `<foreign xml:lang="en">` sa fiksnim jezikom (en)
 - **wrap_foreign_prompt.py** — Obavija selektovani tekst u `<foreign>` tag i pita korisnika da unese vrednost za `xml:lang` atribut kroz dijalog
 - **test_scripts.py** — Mock okruženje za testiranje svih skripti van Notepad++
@@ -72,6 +73,7 @@ Najbrži i najlakši način je korišćenje automatskog instalera:
 - `wrap_trailer.py` → **Ctrl+Alt+5**
 - `wrap_foreign_prompt.py` → **Ctrl+Alt+6**
 - `wrap_foreign_fixed.py` → **Ctrl+Alt+7**
+- `wrap_serbian_quotes.py` → **Ctrl+Alt+8**
 
 **Nakon instalacije:**
 - Restartujte Notepad++ da bi se aktivirale tastaturne prečice
