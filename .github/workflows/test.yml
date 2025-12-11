@@ -39,6 +39,12 @@ jobs:
     - name: Run existing test_scripts.py
       run: python scripts/test_scripts.py
     
+    - name: Run Python 2.7 compliance tests
+      run: python -m unittest tests.test_python27_compliance -v
+    
+    - name: Run Python 2.7 compliance checker
+      run: python check_python27_compliance.py
+    
     - name: Verify all scripts are present
       shell: bash
       run: |
