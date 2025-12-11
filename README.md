@@ -166,6 +166,13 @@ U `tests/` folderu se nalaze sveobuhvatni unit testovi:
   - Testira helper funkcije
   - Testira konfiguraciju tastaturnih prečica
   - Testira detekciju putanja (samo na Windows sistemima)
+- **test_python27_compliance.py** — 12 testova za Python 2.7 kompatibilnost
+  - Proverava da skripte ne koriste f-strings (Python 3.6+)
+  - Proverava da skripte ne koriste type hints (Python 3.5+)
+  - Proverava da skripte ne koriste walrus operator (Python 3.8+)
+  - Proverava da skripte ne koriste async/await (Python 3.5+)
+  - Proverava da skripte imaju UTF-8 encoding deklaraciju
+  - Proverava da skripte koriste samo Npp modul i standardnu biblioteku
 
 Pokretanje unit testova:
 
@@ -178,7 +185,33 @@ python -m unittest tests.test_wrap_scripts -v
 
 # Samo testovi installer-a
 python -m unittest tests.test_install -v
+
+# Samo testovi Python 2.7 kompatibilnosti
+python -m unittest tests.test_python27_compliance -v
 ```
+
+### Python 2.7 Compliance Checker
+
+Repozitorijum sadrži samostalni alat `check_python27_compliance.py` koji proverava da li su skripte kompatibilne sa Python 2.7:
+
+```bash
+# Pokreni proveru Python 2.7 kompatibilnosti
+python check_python27_compliance.py
+```
+
+Ovaj alat proverava:
+- ✅ Da li skripte koriste `.format()` umesto f-strings
+- ✅ Da li skripte ne koriste type hints
+- ✅ Da li skripte ne koriste moderne Python 3+ feature-e
+- ✅ Da li sve skripte imaju UTF-8 encoding deklaraciju
+- ✅ Da li skripte koriste samo Npp modul i Python 2.7 standard library
+
+Izlaz alata:
+- ✅ Zelena oznaka ako je skripta kompatibilna
+- ❌ Crvena oznaka ako postoje problemi
+- Detaljne informacije o problemu (fajl, linija, opis)
+
+**Važno:** Ovaj alat je neophodan jer PythonScript plugin u Notepad++ koristi Python 2.7 runtime.
 
 ### CI/CD — Automatsko testiranje
 
@@ -190,6 +223,7 @@ Projekat koristi **GitHub Actions** za automatsko testiranje pri svakom push-u i
 - **Automatske provere**:
   - Pokreće sve unit testove
   - Pokreće test_scripts.py
+  - **Pokreće Python 2.7 compliance testove** ✨ NOVO
   - Proverava sintaksu svih .py fajlova
   - Verifikuje da svi potrebni fajlovi postoje
 
