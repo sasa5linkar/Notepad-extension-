@@ -9,6 +9,6 @@ from Npp import editor
 # Uzmi selektovani tekst
 sel = editor.getSelText()
 
-# Ako postoji selekcija, obavij je u srpske navodnike („ i ")
+# Ako postoji selekcija, obavij je u srpske navodnike („ i “)
 if sel:
-    editor.replaceSel(u"\u201e{0}\u201c".format(sel))
+    editor.replaceSel('„{0}“'.format(sel))

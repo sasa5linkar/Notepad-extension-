@@ -96,9 +96,9 @@ class TestWrapScripts(unittest.TestCase):
         self.editor.selected_text = "test text"
         sel = self.editor.getSelText()
         if sel:
-            self.editor.replaceSel(u"\u201e{0}\u201c".format(sel))
+            self.editor.replaceSel('„{0}“'.format(sel))
         
-        self.assertEqual(self.editor.replaced_text, u"\u201etest text\u201c")
+        self.assertEqual(self.editor.replaced_text, '„test text“')
     
     def test_wrap_foreign_fixed(self):
         """Test wrap_foreign_fixed script wraps text with fixed language attribute."""
@@ -194,9 +194,9 @@ class TestWrapScripts(unittest.TestCase):
         self.editor.selected_text = "Ово је српски текст"
         sel = self.editor.getSelText()
         if sel:
-            self.editor.replaceSel(u"\u201e{0}\u201c".format(sel))
+            self.editor.replaceSel('„{0}“'.format(sel))
         
-        self.assertEqual(self.editor.replaced_text, u"\u201eОво је српски текст\u201c")
+        self.assertEqual(self.editor.replaced_text, '„Ово је српски текст“')
     
     def test_wrap_multiline_text(self):
         """Test wrapping multiline text."""
