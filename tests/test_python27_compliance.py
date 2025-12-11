@@ -29,7 +29,7 @@ class Python27ComplianceTest(unittest.TestCase):
     def test_scripts_directory_exists(self):
         """Verify that the scripts directory exists."""
         self.assertTrue(self.scripts_dir.exists(), 
-                       f"Scripts directory not found: {self.scripts_dir}")
+                       "Scripts directory not found: {}".format(self.scripts_dir))
     
     def test_scripts_found(self):
         """Verify that script files are found."""
@@ -51,14 +51,15 @@ class Python27ComplianceTest(unittest.TestCase):
                 for node in ast.walk(tree):
                     if sys.version_info >= (3, 6) and isinstance(node, ast.JoinedStr):
                         errors.append(
-                            f"{script_file.name}:{node.lineno}: "
-                            f"f-string detected (not compatible with Python 2.7)"
+                            "{}:{}: f-string detected (not compatible with Python 2.7)".format(
+                                script_file.name, node.lineno
+                            )
                         )
             except SyntaxError as e:
-                errors.append(f"{script_file.name}: Syntax error - {e}")
+                errors.append("{}: Syntax error - {}".format(script_file.name, e))
         
         self.assertEqual(len(errors), 0, 
-                        f"F-strings found:\n" + "\n".join(errors))
+                        "F-strings found:\n" + "\n".join(errors))
     
     def test_no_type_hints(self):
         """Verify that scripts don't use type hints (Python 3.5+ feature)."""
@@ -77,9 +78,10 @@ class Python27ComplianceTest(unittest.TestCase):
                         # Check return annotation
                         if node.returns is not None:
                             errors.append(
-                                f"{script_file.name}:{node.lineno}: "
-                                f"Function '{node.name}' has return type hint "
-                                f"(not compatible with Python 2.7)"
+                                "{}:{}: Function '{}' has return type hint "
+                                "(not compatible with Python 2.7)".format(
+                                    script_file.name, node.lineno, node.name
+                                )
                             )
                         
                         # Check argument annotations
@@ -87,24 +89,26 @@ class Python27ComplianceTest(unittest.TestCase):
                             for arg in node.args.args:
                                 if hasattr(arg, 'annotation') and arg.annotation is not None:
                                     errors.append(
-                                        f"{script_file.name}:{node.lineno}: "
-                                        f"Function '{node.name}' has argument type hints "
-                                        f"(not compatible with Python 2.7)"
+                                        "{}:{}: Function '{}' has argument type hints "
+                                        "(not compatible with Python 2.7)".format(
+                                            script_file.name, node.lineno, node.name
+                                        )
                                     )
                     
                     # Check for AnnAssign (annotated assignments like x: int = 5)
                     if sys.version_info >= (3, 6) and isinstance(node, ast.AnnAssign):
                         errors.append(
-                            f"{script_file.name}:{node.lineno}: "
-                            f"Annotated assignment detected "
-                            f"(not compatible with Python 2.7)"
+                            "{}:{}: Annotated assignment detected "
+                            "(not compatible with Python 2.7)".format(
+                                script_file.name, node.lineno
+                            )
                         )
             
             except SyntaxError as e:
-                errors.append(f"{script_file.name}: Syntax error - {e}")
+                errors.append("{}: Syntax error - {}".format(script_file.name, e))
         
         self.assertEqual(len(errors), 0, 
-                        f"Type hints found:\n" + "\n".join(errors))
+                        "Type hints found:\n" + "\n".join(errors))
     
     def test_no_walrus_operator(self):
         """Verify that scripts don't use walrus operator := (Python 3.8+ feature)."""
@@ -121,15 +125,16 @@ class Python27ComplianceTest(unittest.TestCase):
                 for node in ast.walk(tree):
                     if sys.version_info >= (3, 8) and isinstance(node, ast.NamedExpr):
                         errors.append(
-                            f"{script_file.name}:{node.lineno}: "
-                            f"Walrus operator ':=' detected "
-                            f"(not compatible with Python 2.7)"
+                            "{}:{}: Walrus operator ':=' detected "
+                            "(not compatible with Python 2.7)".format(
+                                script_file.name, node.lineno
+                            )
                         )
             except SyntaxError as e:
-                errors.append(f"{script_file.name}: Syntax error - {e}")
+                errors.append("{}: Syntax error - {}".format(script_file.name, e))
         
         self.assertEqual(len(errors), 0, 
-                        f"Walrus operators found:\n" + "\n".join(errors))
+                        "Walrus operators found:\n" + "\n".join(errors))
     
     def test_no_async_await(self):
         """Verify that scripts don't use async/await (Python 3.5+ feature)."""
@@ -146,21 +151,23 @@ class Python27ComplianceTest(unittest.TestCase):
                 for node in ast.walk(tree):
                     if isinstance(node, ast.AsyncFunctionDef):
                         errors.append(
-                            f"{script_file.name}:{node.lineno}: "
-                            f"Async function '{node.name}' detected "
-                            f"(not compatible with Python 2.7)"
+                            "{}:{}: Async function '{}' detected "
+                            "(not compatible with Python 2.7)".format(
+                                script_file.name, node.lineno, node.name
+                            )
                         )
                     elif isinstance(node, (ast.Await, ast.AsyncFor, ast.AsyncWith)):
                         errors.append(
-                            f"{script_file.name}:{node.lineno}: "
-                            f"Async/await syntax detected "
-                            f"(not compatible with Python 2.7)"
+                            "{}:{}: Async/await syntax detected "
+                            "(not compatible with Python 2.7)".format(
+                                script_file.name, node.lineno
+                            )
                         )
             except SyntaxError as e:
-                errors.append(f"{script_file.name}: Syntax error - {e}")
+                errors.append("{}: Syntax error - {}".format(script_file.name, e))
         
         self.assertEqual(len(errors), 0, 
-                        f"Async/await found:\n" + "\n".join(errors))
+                        "Async/await found:\n" + "\n".join(errors))
     
     def test_uses_format_method(self):
         """Verify that scripts use .format() for string formatting."""
@@ -179,15 +186,15 @@ class Python27ComplianceTest(unittest.TestCase):
             
             if not has_format and has_percent:
                 warnings.append(
-                    f"{script_file.name}: Uses %-formatting instead of .format() "
-                    f"(consider using .format() for consistency)"
+                    "{}: Uses %-formatting instead of .format() "
+                    "(consider using .format() for consistency)".format(script_file.name)
                 )
         
         # This is just a warning, not a failure
         if warnings:
             print("\nWarnings:")
             for warning in warnings:
-                print(f"  {warning}")
+                print("  {}".format(warning))
     
     def test_no_nonlocal_keyword(self):
         """Verify that scripts don't use 'nonlocal' keyword (Python 3+ feature)."""
@@ -204,15 +211,16 @@ class Python27ComplianceTest(unittest.TestCase):
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Nonlocal):
                         errors.append(
-                            f"{script_file.name}:{node.lineno}: "
-                            f"'nonlocal' keyword detected "
-                            f"(not compatible with Python 2.7)"
+                            "{}:{}: 'nonlocal' keyword detected "
+                            "(not compatible with Python 2.7)".format(
+                                script_file.name, node.lineno
+                            )
                         )
             except SyntaxError as e:
-                errors.append(f"{script_file.name}: Syntax error - {e}")
+                errors.append("{}: Syntax error - {}".format(script_file.name, e))
         
         self.assertEqual(len(errors), 0, 
-                        f"'nonlocal' keyword found:\n" + "\n".join(errors))
+                        "'nonlocal' keyword found:\n" + "\n".join(errors))
     
     def test_no_yield_from(self):
         """Verify that scripts don't use 'yield from' (Python 3.3+ feature)."""
@@ -229,15 +237,16 @@ class Python27ComplianceTest(unittest.TestCase):
                 for node in ast.walk(tree):
                     if isinstance(node, ast.YieldFrom):
                         errors.append(
-                            f"{script_file.name}:{node.lineno}: "
-                            f"'yield from' detected "
-                            f"(not compatible with Python 2.7)"
+                            "{}:{}: 'yield from' detected "
+                            "(not compatible with Python 2.7)".format(
+                                script_file.name, node.lineno
+                            )
                         )
             except SyntaxError as e:
-                errors.append(f"{script_file.name}: Syntax error - {e}")
+                errors.append("{}: Syntax error - {}".format(script_file.name, e))
         
         self.assertEqual(len(errors), 0, 
-                        f"'yield from' found:\n" + "\n".join(errors))
+                        "'yield from' found:\n" + "\n".join(errors))
     
     def test_has_utf8_encoding_declaration(self):
         """Verify that scripts have UTF-8 encoding declaration."""
@@ -258,8 +267,9 @@ class Python27ComplianceTest(unittest.TestCase):
                 missing_encoding.append(script_file.name)
         
         self.assertEqual(len(missing_encoding), 0,
-                        f"Scripts missing UTF-8 encoding declaration: "
-                        f"{', '.join(missing_encoding)}")
+                        "Scripts missing UTF-8 encoding declaration: {}".format(
+                            ', '.join(missing_encoding)
+                        ))
     
     def test_imports_only_from_npp_or_stdlib(self):
         """Verify that scripts only import from Npp module or standard library."""
@@ -285,25 +295,27 @@ class Python27ComplianceTest(unittest.TestCase):
                             module_name = alias.name.split('.')[0]
                             if module_name in third_party_modules:
                                 problematic_imports.append(
-                                    f"{script_file.name}:{node.lineno}: "
-                                    f"Third-party import '{alias.name}' "
-                                    f"(only Npp and stdlib allowed)"
+                                    "{}:{}: Third-party import '{}' "
+                                    "(only Npp and stdlib allowed)".format(
+                                        script_file.name, node.lineno, alias.name
+                                    )
                                 )
                     elif isinstance(node, ast.ImportFrom):
                         if node.module:
                             module_name = node.module.split('.')[0]
                             if module_name in third_party_modules:
                                 problematic_imports.append(
-                                    f"{script_file.name}:{node.lineno}: "
-                                    f"Third-party import from '{node.module}' "
-                                    f"(only Npp and stdlib allowed)"
+                                    "{}:{}: Third-party import from '{}' "
+                                    "(only Npp and stdlib allowed)".format(
+                                        script_file.name, node.lineno, node.module
+                                    )
                                 )
             except SyntaxError as e:
                 # Already caught by other tests
                 pass
         
         self.assertEqual(len(problematic_imports), 0,
-                        f"Problematic imports found:\n" + 
+                        "Problematic imports found:\n" + 
                         "\n".join(problematic_imports))
     
     def test_scripts_can_be_parsed(self):
@@ -318,11 +330,11 @@ class Python27ComplianceTest(unittest.TestCase):
                 ast.parse(content, filename=str(script_file))
             except SyntaxError as e:
                 parsing_errors.append(
-                    f"{script_file.name}:{e.lineno}: {e.msg}"
+                    "{}:{}: {}".format(script_file.name, e.lineno, e.msg)
                 )
         
         self.assertEqual(len(parsing_errors), 0,
-                        f"Syntax errors found:\n" + "\n".join(parsing_errors))
+                        "Syntax errors found:\n" + "\n".join(parsing_errors))
 
 
 if __name__ == '__main__':
